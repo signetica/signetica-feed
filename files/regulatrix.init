@@ -1,0 +1,14 @@
+#!/bin/sh /etc/rc.common
+#
+# Init script for regulatrix
+
+START=95
+PROG=/sbin/regulatrix
+
+start() {
+	$PROG start
+}
+
+stop() {
+	$PROG stop
+}
