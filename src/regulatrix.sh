@@ -118,7 +118,16 @@ configure_devices() {
   }
 
   config_load regulatrix
-  [ "$reserved_bw" ] && echo $reserved_bw
+
+  if [ "$cb_action" = "reserved" ];
+  then
+    if [ "$reserved_bw" ];
+    then
+      echo $reserved_bw
+    else
+      echo "0kbit"
+    fi
+  fi
 }
 
 # Set mark on packets from $LAN_DEV with specified MAC address, then add marked
@@ -185,7 +194,6 @@ configure_filters() {
 
   # Obtain the unreserved bandwidth.
   reserved_bw=$(configure_devices reserved $direction)
-  [ ! "$reserved_bw" ] && reserved_bw=0kbit
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
 
   flush_filters $direction
