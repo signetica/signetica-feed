@@ -185,6 +185,7 @@ configure_filters() {
 
   # Obtain the unreserved bandwidth.
   reserved_bw=$(configure_devices reserved $direction)
+  [ ! "$reserved_bw" ] && reserved_bw=0kbit
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
 
   flush_filters $direction
