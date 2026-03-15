@@ -30,8 +30,8 @@ define Build/Compile
 endef
 
 define Package/regulatrix/install
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/regulatrix.sh $(1)/sbin/regulatrix
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/regulatrix.sh $(1)/usr/sbin/regulatrix
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) files/regulatrix.init $(1)/etc/init.d/regulatrix
 	$(INSTALL_DIR) $(1)/etc/config

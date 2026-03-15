@@ -3,7 +3,7 @@
 # Init script for regulatrix
 
 START=95
-PROG=/sbin/regulatrix
+PROG=/usr/sbin/regulatrix
 
 start() {
 	$PROG start
