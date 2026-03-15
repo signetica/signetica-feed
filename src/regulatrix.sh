@@ -30,6 +30,8 @@
 # Separate qdiscs are set up for uploads and downloads.  Devices are added to them
 # as required by the config.
 #
+# All bandwidth values in the config file must be specified in kbit units.
+#
 # View activity via:
 #   tc [-p -d] -s (class|filter|qdisc) show dev $DEVICE
 #   iptables [-v] -t mangle -L PREROUTING
@@ -64,7 +66,7 @@ read_globals() {
   config_foreach handle_global_config global
   if [ "$LAN_DEV" = "unspec" -o "$WAN_DEV" = "unspec" \
        -o "$LAN_R2Q" = "unspec" -o "$WAN_R2Q" = "unspec" \
-       -o "$IB_BW" = "unspec" -o "OB_BW" = "unspec" ];
+       -o "$IB_BW" = "unspec" -o "$OB_BW" = "unspec" ];
   then
     echo regulatrix: configuration file error
     exit 1
@@ -131,7 +133,8 @@ configure_devices() {
 }
 
 # Set mark on packets from $LAN_DEV with specified MAC address, then add marked
-# packets to filter.  Each device gets its own class.
+# packets to filter.  Each device gets its own class with an SFQ leaf qdisc to
+# provide fair queuing among concurrent flows within the class.
 filter_mac() {
   local direction=$1
   local mac=$2
@@ -147,9 +150,11 @@ filter_mac() {
              -j MARK --set-mark $id
 
     tc class add dev $WAN_DEV parent 1:1 classid 1:$id htb rate $rate ceil $ceil
+    tc qdisc add dev $WAN_DEV parent 1:$id handle $id: sfq perturb 10
     tc filter add dev $WAN_DEV parent 1: protocol ip prio 5 handle $id fw flowid 1:$id
   else
     tc class add dev $LAN_DEV parent 1:1 classid 1:$id htb rate $rate ceil $ceil
+    tc qdisc add dev $LAN_DEV parent 1:$id handle $id: sfq perturb 10
     tc filter add dev $LAN_DEV parent 1: protocol ip prio 5 u32 match ether dst $mac flowid 1:$id
   fi
 }
@@ -189,7 +194,8 @@ configure_filters() {
       ;;
   esac
 
-  # Enable counters.
+  # Enable HTB rate estimation counters.  Note: this is a system-global setting
+  # and will affect all HTB qdiscs on the system, not just those created here.
   echo 1 > /sys/module/sch_htb/parameters/htb_rate_est
 
   # Obtain the unreserved bandwidth.
@@ -198,10 +204,12 @@ configure_filters() {
 
   flush_filters $direction
 
-  # Add qdisc and base classes.
+  # Add qdisc and base classes.  The default class 1:10 catches all unregulated
+  # traffic and also gets an SFQ leaf for fair flow scheduling.
   tc qdisc add dev $device root       handle 1:    htb default 10 r2q $r2q
   tc class add dev $device parent 1:  classid 1:1  htb rate $bandwidth
   tc class add dev $device parent 1:1 classid 1:10 htb rate $unreserved_bw ceil $bandwidth
+  tc qdisc add dev $device parent 1:10 handle 10: sfq perturb 10
 
   # Add classes, filters, and iptable rules for each regulated device.
   configure_devices configure $direction
