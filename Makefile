@@ -12,7 +12,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/regulatrix
 	SECTION:=Network
 	CATEGORY:=Network
-	SUBMENU:=Config
+	SUBMENU:=Traffic Control
 	TITLE:=Regulate upload/download rates per mac address
 	URL:=https://github.com/signetica/regulatrix
 	MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
