@@ -13,6 +13,10 @@ resolutions.
 Similarly, you might be quite happy watching 1080p video on a smaller device,
 and if bandwith is tight you might prefer that to 4k.
 
+The script and the config file included in this package contain information
+about how to configure and use this software.  Look in src/regulatrix.sh and
+files/regulatrix.conf.
+
 ## Usage
 While the packaging is for OpenWRT's apk packaging system, the scripts are
 more broadly useful for Linux systems and you should have no real trouble
