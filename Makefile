@@ -16,7 +16,7 @@ define Package/regulatrix
 	TITLE:=Regulate upload/download rates per mac address
 	URL:=https://github.com/signetica/regulatrix
 	MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
-	EXTRA_DEPENDS:= +tc-tiny +iptables-nft +kmod-sched
+	DEPENDS:=+tc-tiny +iptables +kmod-sched
 	PKGARCH:=all
 endef
  
@@ -27,6 +27,10 @@ define Package/regulatrix/description
 endef
  
 define Build/Compile
+endef
+
+define Package/regulatrix/conffiles
+/etc/config/regulatrix
 endef
 
 define Package/regulatrix/install
