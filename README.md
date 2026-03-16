@@ -33,7 +33,7 @@ apk add --allow-untrusted <apk filename>
 
 (The --allow-untrusted allows you to install an unsigned apk)
 
-If building your own apk is inconvenient, perhaps the apk will appear
-in an official OpenWRT repository soon. Or perhaps the apk will appear here.
-In the meanwhile, there are only three files and you can just copy them into
+If building your own apk is inconvenient, perhaps the apk will appear in an
+official OpenWRT repository soon. Or just download the pre-built version here.
+And after all, there are only three files and you can just copy them into
 place.
