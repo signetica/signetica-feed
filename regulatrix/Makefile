@@ -14,7 +14,7 @@ define Package/regulatrix
 	CATEGORY:=Network
 	SUBMENU:=Traffic Control
 	TITLE:=Regulate upload/download rates per mac address
-	URL:=https://github.com/signetica/regulatrix
+	URL:=https://github.com/signetica/signetica-feed
 	MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
 	DEPENDS:=+tc-tiny +iptables +kmod-sched
 	PKGARCH:=all
