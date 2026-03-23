@@ -233,7 +233,7 @@ stop_regulation() {
 
 # Redefineable for debugging output.
 echoeval() {
-  eval $*
+  eval "$@"
 }
 
 ####################################
