@@ -168,7 +168,7 @@ flush_filters() {
   then
     output=`iptables-save -t mangle |\
             sed -n '/PREROUTING.*comment.*regulate_tx_bw/s/-A/iptables -t mangle -D/p'`
-    eval "${output}"
+    echoeval "${output}"
     tc qdisc del dev $WAN_DEV root 2> /dev/null
   else
     tc qdisc del dev $LAN_DEV root 2> /dev/null
@@ -196,11 +196,17 @@ configure_filters() {
 
   # Enable HTB rate estimation counters.  Note: this is a system-global setting
   # and will affect all HTB qdiscs on the system, not just those created here.
-  echo 1 > /sys/module/sch_htb/parameters/htb_rate_est
+  echoeval 'echo 1 > /sys/module/sch_htb/parameters/htb_rate_est'
 
   # Obtain the unreserved bandwidth.
   reserved_bw=$(configure_devices reserved $direction)
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
+  if [ ${unreserved_bw%kbit} -lt "0" ];
+  then
+    logger -t regulatrix -p daemon.info "Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)"
+    echo "regulatrix: error: Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)" >&2
+    exit 1
+  fi
 
   flush_filters $direction
 
@@ -225,14 +231,34 @@ stop_regulation() {
   [ "$ENABLE_OUT" -eq 1 ] && flush_filters outbound
 }
 
+# Redefineable for debugging output.
+echoeval() {
+  eval $*
+}
+
 ####################################
 
 # Load LAN_DEV, WAN_DEV, LAN_R2Q, WAN_R2Q, IB_BW, OB_BW, ENABLE_IN, ENABLE_OUT
 read_globals
 
 case $1 in
-  start)
+  reload|restart|start)
     logger -t regulatrix -p daemon.info Starting regulatrix
+    start_regulation
+    ;;
+  debug)
+    # In debug mode, tc/iptables rules are output without execution.
+    echoeval() {
+      echo $*
+    }
+    iptables() {
+      echo iptables $*
+    }
+    tc() {
+      echo tc $*
+    }
+
+    logger -t regulatrix -p daemon.info Starting regulatrix in debug mode
     start_regulation
     ;;
   stop)
