@@ -203,8 +203,7 @@ configure_filters() {
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
   if [ ${unreserved_bw%kbit} -lt "0" ];
   then
-    logger -t regulatrix -p daemon.info "Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)"
-    echo "regulatrix: error: Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)" >&2
+    logger -s -t regulatrix -p daemon.err "Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)"
     exit 1
   fi
 
