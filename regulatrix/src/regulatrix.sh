@@ -265,7 +265,7 @@ case $1 in
     stop_regulation
     ;;
   *)
-    echo "Usage: `basename $0` [start|stop]"
+    echo "Usage: `basename $0` [debug|reload|restart|start|stop]"
     ;;
 esac
 
