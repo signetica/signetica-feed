@@ -68,7 +68,8 @@ read_globals() {
        -o "$LAN_R2Q" = "unspec" -o "$WAN_R2Q" = "unspec" \
        -o "$IB_BW" = "unspec" -o "$OB_BW" = "unspec" ];
   then
-    echo regulatrix: configuration file error
+    logger -s -t regulatrix -p daemon.err "Configuration file error"
+    stop_regulation
     exit 1
   fi
 }
@@ -83,7 +84,7 @@ read_globals() {
 configure_devices() {
   local cb_action=$1
   local direction=$2
-  local reserved_bw
+  local reserved_bw duplicate
 
   config_cb() {
     local name="$1"
@@ -110,8 +111,14 @@ configure_devices() {
     local dev_spec="$mac_address $id $rate $ceil"
     if [ "$mac_address" -a "$id" -a "$rate" ];
     then
-      [ "$cb_action" = "reserved" ] &&
-       reserved_bw=$((${reserved_bw%kbit} + ${rate%kbit}))kbit
+      if [ "$cb_action" = "reserved" ];
+      then
+        reserved_bw=$((${reserved_bw%kbit} + ${rate%kbit}))kbit
+ 
+        # Check for duplicated ids while calculating reserved_bw.
+        [ ! "$duplicate" ] && eval "[ \${seen_${id}} ]" && duplicate=$id
+        eval seen_${id}=1
+      fi
       [ "$cb_action" = "configure" ] && filter_mac $direction ${dev_spec}
     fi
 
@@ -120,6 +127,12 @@ configure_devices() {
   }
 
   config_load regulatrix
+
+  if [ "$duplicate" ];
+  then
+    logger -s -t regulatrix -p daemon.err "Duplicate id $duplicate in configuration file"
+    return 1
+  fi
 
   if [ "$cb_action" = "reserved" ];
   then
@@ -130,6 +143,7 @@ configure_devices() {
       echo "0kbit"
     fi
   fi
+  return 0
 }
 
 # Set mark on packets from $LAN_DEV with specified MAC address, then add marked
@@ -200,10 +214,16 @@ configure_filters() {
 
   # Obtain the unreserved bandwidth.
   reserved_bw=$(configure_devices reserved $direction)
+
+  # A non-zero exit value indicates a configuration file error.
+  #  An error message should have already been logged.
+  [ "$?" != 0 ] && stop_regulation && exit 1
+
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
   if [ ${unreserved_bw%kbit} -lt "0" ];
   then
     logger -s -t regulatrix -p daemon.err "Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)"
+    stop_regulation
     exit 1
   fi
 
