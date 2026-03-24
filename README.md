@@ -4,14 +4,20 @@ ___
 
 ## Regulatrix
 This package uses qdiscs to allow the regulation of upload and download rates
-from a local network to the Internet.
+from a local network to the Internet.  The MAC address of network devices
+are used to identify and regulate them.
 
 It's especially useful for taming things like Ring Cameras which might want to
 upload in 4k, but which will, if forced, provide useful imagery at much lower
 resolutions.
 
-Similarly, you might be quite happy watching 1080p video on a smaller device,
-and if bandwith is tight you might prefer that to 4k.
+Similarly, you might be quite happy watching 1080p video on a smaller device.
+If bandwidth is tight you might prefer that to 4k.
+
+Because this software uses MAC addresses to regulate hosts, it will not work
+repeatably on devices which select randomized MAC addresses for each session.
+In general randomized addresses can be turned off on selected networks -
+you should do this on networks you want to manage with this software,
 
 The script and the config file included in this package contain information
 about how to configure and use this software.  Look in src/regulatrix.sh and
@@ -31,9 +37,12 @@ Rebuild the feeds and make the APK, then install it with
 apk add --allow-untrusted <apk filename>
 ```
 
-(The --allow-untrusted allows you to install an unsigned apk)
+(Use --allow-untrusted if you leave the apk unsigned)
 
 If building your own apk is inconvenient, perhaps the apk will appear in an
-official OpenWRT repository soon. Or just download the pre-built version here.
-And after all, there are only three files and you can just copy them into
-place.
+official OpenWRT repository soon?  A pre-built version is also present in this
+repository.
+
+Or, since there are only three files, you can just copy them into place:
+/etc/config/regulatrix, /etc/init.d/regulatrix and /usr/sbin/regulatrix.  Make
+the last two executable.
