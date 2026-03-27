@@ -213,14 +213,15 @@ configure_filters() {
   echoeval 'echo 1 > /sys/module/sch_htb/parameters/htb_rate_est'
 
   # Obtain the unreserved bandwidth.
-  reserved_bw=$(configure_devices reserved $direction)
-
-  # A non-zero exit value indicates a configuration file error.
-  #  An error message should have already been logged.
-  [ "$?" != 0 ] && stop_regulation && exit 1
+  if ! reserved_bw=$(configure_devices reserved $direction);
+  then
+    # Configuration file error. An error message should have already been logged.
+    stop_regulation
+    exit 1
+  fi
 
   unreserved_bw=$((${bandwidth%kbit} - ${reserved_bw%kbit}))kbit
-  if [ ${unreserved_bw%kbit} -lt "0" ];
+  if [ ${unreserved_bw%kbit} -le "0" ];
   then
     logger -s -t regulatrix -p daemon.err "Sum of reserved bandwith ($reserved_bw) exceeds channel capacity ($bandwidth)"
     stop_regulation
@@ -268,16 +269,14 @@ case $1 in
   debug)
     # In debug mode, tc/iptables rules are output without execution.
     echoeval() {
-      echo $*
+      echo "$@"
     }
     iptables() {
-      echo iptables $*
+      echo iptables "$@"
     }
     tc() {
-      echo tc $*
+      echo tc "$@"
     }
-
-    logger -t regulatrix -p daemon.info Starting regulatrix in debug mode
     start_regulation
     ;;
   stop)
