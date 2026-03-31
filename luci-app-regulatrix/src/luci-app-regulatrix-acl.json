@@ -1,0 +1,22 @@
+{
+	"luci-app-regulatrix": {
+		"description": "Grant access to Regulatrix bandwidth control configuration",
+		"read": {
+			"uci": ["regulatrix"],
+			"ubus": {
+				"service": ["list"]
+			},
+			"file": {
+				"/usr/sbin/regulatrix": ["exec"],
+				"/sbin/tc -s class show *": ["exec"],
+				"/usr/sbin/iptables -v -t mangle -L PREROUTING": ["exec"]
+			}
+		},
+		"write": {
+			"uci": ["regulatrix"],
+			"file": {
+				"/usr/sbin/regulatrix": ["exec"]
+			}
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"admin/network/regulatrix": {
+		"title": "Regulatrix",
+		"order": 60,
+		"action": {
+			"type": "firstchild"
+		},
+		"depends": {
+			"acl": ["luci-app-regulatrix"],
+			"uci": {"regulatrix": true}
+		}
+	},
+
+	"admin/network/regulatrix/shaping": {
+		"title": "Rate Shaping",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "regulatrix/regulatrix"
+		}
+	},
+
+	"admin/network/regulatrix/statistics": {
+		"title": "Statistics",
+		"order": 30,
+		"action": {
+			"type": "view",
+			"path": "regulatrix/statistics"
+		}
+	}
+}

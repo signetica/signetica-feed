@@ -46,3 +46,10 @@ repository.
 Or, since there are only three files, you can just copy them into place:
 /etc/config/regulatrix, /etc/init.d/regulatrix and /usr/sbin/regulatrix.  Make
 the last two executable.
+___
+
+## luci-app-regulatrix
+This package is a luci module that provides a graphical interface to regulatrix.
+
+In addition to providing a means of configuring regulatrix, it can display
+statistics about how the traffic control is functioning.
