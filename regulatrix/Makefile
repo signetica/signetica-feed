@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=regulatrix
-PKG_VERSION:=1.2.1
+PKG_VERSION:=2.0.0
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
@@ -23,7 +23,8 @@ endef
 define Package/regulatrix/description
  The Regulatrix will discipline your network.
  Specify a MAC address and the desired rates, and Regulatrix 
- will use htb and sfq qdiscs to enforce bandwith limits.
+ will use htb and sfq qdiscs to enforce bandwith limits.  Quota-based
+ dynamic bandwidth limits are also available.
 endef
  
 define Build/Compile

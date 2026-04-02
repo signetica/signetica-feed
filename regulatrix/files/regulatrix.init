@@ -1,14 +1,28 @@
 #!/bin/sh /etc/rc.common
 #
-# Init script for regulatrix
+# procd init script for Regulatrix bandwidth control.
+# Provides service_triggers so that UCI changes to the regulatrix config
+# automatically trigger a reload via Save & Apply in LuCI.
 
-START=95
-PROG=/usr/sbin/regulatrix
+START=99
+STOP=10
+USE_PROCD=1
 
-start() {
-	$PROG start
+SCRIPT="/usr/sbin/regulatrix"
+
+start_service() {
+	$SCRIPT start
 }
 
-stop() {
-	$PROG stop
+stop_service() {
+	$SCRIPT stop
+}
+
+reload_service() {
+	$SCRIPT stop
+	$SCRIPT start
+}
+
+service_triggers() {
+	procd_add_reload_trigger "regulatrix"
 }
