@@ -12,6 +12,6 @@ LUCI_DESCRIPTION:=Provides a web interface for configuring per-device bandwidth 
 LUCI_DEPENDS:=+luci-base +regulatrix
 LUCI_PKGARCH:=all
 
-include ../../luci.mk
+include ../../luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
