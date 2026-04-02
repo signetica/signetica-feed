@@ -20,6 +20,15 @@
 		}
 	},
 
+	"admin/network/regulatrix/quotas": {
+		"title": "Quotas",
+		"order": 20,
+		"action": {
+			"type": "view",
+			"path": "regulatrix/quotas"
+		}
+	},
+
 	"admin/network/regulatrix/statistics": {
 		"title": "Statistics",
 		"order": 30,

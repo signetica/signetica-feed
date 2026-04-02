@@ -2,11 +2,10 @@ hier:
 	mkdir -p htdocs/luci-static/resources/view/regulatrix
 	install -c -m 644 regulatrix.js \
 		htdocs/luci-static/resources/view/regulatrix
+	install -c -m 644 quotas.js \
+		htdocs/luci-static/resources/view/regulatrix
 	install -c -m 644 statistics.js \
 		htdocs/luci-static/resources/view/regulatrix
-
-	mkdir -p root/etc/init.d
-	install -c -m 755 regulatrix.init root/etc/init.d/regulatrix
 
 	mkdir -p root/usr/share/luci/menu.d
 	install -c -m 644 luci-app-regulatrix-menu.json \

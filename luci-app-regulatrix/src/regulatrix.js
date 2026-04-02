@@ -55,23 +55,16 @@ return view.extend({
 			  'consume excessive bandwidth.'));
 
 		/* ── Global Settings (two-column layout) ─────────────── */
-		/*
-		 * Options are declared flat (no tabs).  After render, we split
-		 * them into left/right columns by UCI option name using DOM
-		 * manipulation — see the m.render().then() callback below.
-		 */
 
 		s = m.section(form.TypedSection, 'global', _('Global Settings'));
 		s.anonymous = true;
 		s.addremove = false;
 
-		/* Left column: LAN / Inbound */
 		o = s.option(form.Value, 'lan_dev', _('LAN Device'),
 			_('Network device where regulated devices reside.'));
 		o.placeholder = 'br-lan';
 		o.rmempty = false;
 
-		/* Right column: WAN / Outbound */
 		o = s.option(form.Value, 'wan_dev', _('WAN Device'),
 			_('Outbound Internet-facing device.'));
 		o.placeholder = 'wan';
@@ -126,19 +119,23 @@ return view.extend({
 		s.sortable = true;
 		s.addbtntitle = _('Add device…');
 
+		o = s.option(form.Flag, 'enabled', _('On'));
+		o.default = '1';
+		o.width = '5%';
+
 		o = s.option(form.Value, 'device_name', _('Name'));
 		o.placeholder = _('e.g., Front Door Camera');
-		o.width = '18%';
+		o.width = '17%';
 
 		o = s.option(form.Value, 'mac_address', _('MAC Address'));
 		o.rmempty = false;
 		o.datatype = 'macaddr';
-		o.width = '15%';
+		o.width = '14%';
 
 		o = s.option(form.Value, 'id', _('ID'));
 		o.rmempty = false;
 		o.datatype = 'uinteger';
-		o.width = '6%';
+		o.width = '5%';
 		o.validate = function(section_id, value) {
 			var id = parseInt(value);
 			if (isNaN(id) || id <= 0)
@@ -146,7 +143,6 @@ return view.extend({
 			if (id === 1 || id === 10)
 				return _('IDs 1 and 10 are reserved');
 
-			/* Check for duplicate IDs across all device sections. */
 			var sections = uci.sections('regulatrix', 'device');
 			for (var i = 0; i < sections.length; i++) {
 				if (sections[i]['.name'] !== section_id &&
@@ -157,20 +153,20 @@ return view.extend({
 		};
 
 		o = s.option(form.Value, 'inbound_rate', _('In Rate'));
-		o.width = '12%';
+		o.width = '11%';
 		kbitOption(o);
 
 		o = s.option(form.Value, 'inbound_ceil', _('In Ceil'));
-		o.width = '12%';
+		o.width = '11%';
 		kbitOption(o);
 		o.placeholder = _('= rate');
 
 		o = s.option(form.Value, 'outbound_rate', _('Out Rate'));
-		o.width = '12%';
+		o.width = '11%';
 		kbitOption(o);
 
 		o = s.option(form.Value, 'outbound_ceil', _('Out Ceil'));
-		o.width = '12%';
+		o.width = '11%';
 		kbitOption(o);
 		o.placeholder = _('= rate');
 
@@ -191,6 +187,8 @@ return view.extend({
 				var ib_sum = 0, ob_sum = 0;
 
 				for (var i = 0; i < devices.length; i++) {
+					if (devices[i].enabled === '0')
+						continue;
 					ib_sum += parseInt(devices[i].inbound_rate) || 0;
 					ob_sum += parseInt(devices[i].outbound_rate) || 0;
 				}
@@ -215,13 +213,7 @@ return view.extend({
 		};
 
 		return m.render().then(function(mapEl) {
-			/* ── Rearrange global options into two columns ────────
-			 *
-			 * LuCI renders each option as a .cbi-value div with a
-			 * data-name attribute.  We find them by name, move them
-			 * into left/right column divs inside a CSS grid wrapper,
-			 * and insert the grid into the section body.
-			 */
+			/* Rearrange global options into two columns. */
 			requestAnimationFrame(function() {
 				var leftNames  = ['lan_dev', 'inbound_rate',
 				                  'lan_r2q', 'enable_inbound_filter'];

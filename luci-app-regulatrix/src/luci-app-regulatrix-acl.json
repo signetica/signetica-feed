@@ -9,7 +9,8 @@
 			"file": {
 				"/usr/sbin/regulatrix": ["exec"],
 				"/sbin/tc -s class show *": ["exec"],
-				"/usr/sbin/iptables -v -t mangle -L PREROUTING": ["exec"]
+				"/usr/sbin/iptables -v -t mangle -L PREROUTING": ["exec"],
+				"/usr/sbin/iptables -v -x -t mangle -L POSTROUTING": ["exec"]
 			}
 		},
 		"write": {
