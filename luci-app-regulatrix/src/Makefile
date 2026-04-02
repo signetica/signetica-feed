@@ -3,10 +3,10 @@
 compile:
 
 install:
-	mkdir -p $(DESTDIR)/htdocs/luci-static/resources/view/regulatrix
-	cp regulatrix.js $(DESTDIR)/htdocs/luci-static/resources/view/regulatrix
-	cp quotas.js $(DESTDIR)/htdocs/luci-static/resources/view/regulatrix
-	cp statistics.js $(DESTDIR)/htdocs/luci-static/resources/view/regulatrix
+	mkdir -p $(DESTDIR)/www/luci-static/resources/view/regulatrix
+	cp regulatrix.js $(DESTDIR)/www/luci-static/resources/view/regulatrix
+	cp quotas.js $(DESTDIR)/www/luci-static/resources/view/regulatrix
+	cp statistics.js $(DESTDIR)/www/luci-static/resources/view/regulatrix
 
 	mkdir -p $(DESTDIR)/root/usr/share/luci/menu.d
 	cp luci-app-regulatrix-menu.json \
