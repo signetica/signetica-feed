@@ -108,8 +108,7 @@ return view.extend({
 		/* ── Address Range ───────────────────────────────────── */
 
 		o = s.option(form.Value, 'lan_addr', _('LAN Address'),
-			_('LAN network address (e.g., 192.168.1.0). The last octet ' +
-			  'is stripped to form the prefix for quota rules.'));
+			_('LAN network address (e.g., 192.168.1.0).'));
 		o.placeholder = '192.168.1.0';
 		o.rmempty = false;
 		o.validate = function(section_id, value) {
@@ -148,33 +147,31 @@ return view.extend({
 		/* ── Tier 1: Full Speed ──────────────────────────────── */
 
 		o = s.option(form.Value, 't1_rate', _('Tier 1 Ceiling'),
-			_('Maximum bandwidth while under Tier 1 quota.'));
+			_('Maximum bandwidth while under Tier 1 quota (kbit).'));
 		o.rmempty = false;
 		kbitOption(o);
 
 		o = s.option(form.Value, 't1_quota', _('Tier 1 Quota'),
-			_('Data allowance before demotion to Tier 2.'));
+			_('Data allowance before demotion to Tier 2 (MB).'));
 		o.rmempty = false;
 		mbOption(o);
 
 		/* ── Tier 2: Reduced ─────────────────────────────────── */
 
 		o = s.option(form.Value, 't2_rate', _('Tier 2 Ceiling'),
-			_('Maximum bandwidth after Tier 1 quota is exhausted.'));
+			_('Maximum bandwidth after Tier 1 quota is exhausted (kbit).'));
 		o.rmempty = false;
 		kbitOption(o);
 
 		o = s.option(form.Value, 't2_quota', _('Tier 2 Quota'),
-			_('Additional data allowance before demotion to Tier 3.'));
+			_('Additional data allowance before demotion to Tier 3 (MB).'));
 		o.rmempty = false;
 		mbOption(o);
 
 		/* ── Tier 3: Floor ───────────────────────────────────── */
 
 		o = s.option(form.Value, 't3_rate', _('Tier 3 Rate'),
-			_('Floor bandwidth after all quotas are exhausted. ' +
-			  'This is both the guaranteed rate and ceiling for each ' +
-			  'host in the range.'));
+			_('Floor bandwidth after all quotas are exhausted (kbit).'));
 		o.rmempty = false;
 		kbitOption(o);
 
