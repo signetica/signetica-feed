@@ -77,7 +77,7 @@ You may build the apk packages for OpenWRT by adding this line to the SDK's feed
 ```
     src-git signetica https://github.com/signetica/signetica-feed.git
 ```
-Rebuild the feeds and make the APK, then install it with
+Rebuild the feeds and make the APKs, then install them with
 ```
 apk add --allow-untrusted <apk filename>
 ```
@@ -87,7 +87,7 @@ for releases.
 
 Regulatrix can be installed manually by copying three files into place:
 ```
-    cp files/regulatrix.con /etc/config/regulatrix
+    cp files/regulatrix.conf /etc/config/regulatrix
     cp files/regulatrix.init /etc/init.d/regulatrix
     cp src/regulatrix.sh /usr/sbin/regulatrix
 ```
