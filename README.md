@@ -1,33 +1,76 @@
-# OpenWRT package feed
-This repository contains one or more packages for managing networks on OpenWRT routers.
+# OpenWRT package feed for Regulatrix
+
+Regulatrix is a package for regulating upload and download rates between a
+local network and the Internet.
+
+luci-app-regulatrix is a package for configuring and monitoring regulatrix.
+
+## About Regulatrix
+
+MAC addresses are used to specify the devices for which bandwidth should be regulated.
+Each device will be put in a separate class with its own guaranteed rate and ceiling.
+
+Separate qdiscs are set up for uploads and downloads.  Devices are added to them
+as required by the config.
+
+In addition, groups of IP addresses can be managed using a quota-based three-tiered
+download bandwidth restriction system.
 ___
 
-## Regulatrix
-This package uses qdiscs to allow the regulation of upload and download rates
-from a local network to the Internet.  The MAC address of network devices
-are used to identify and regulate them.
+## Overview
 
-It's especially useful for taming things like Ring Cameras which might want to
-upload in 4k, but which will, if forced, provide useful imagery at much lower
-resolutions.
+Regulatrix uses qdiscs to allow the regulation of upload and download rates
+between a local network and the Internet.  Its first option uses the MAC addresses of
+network devices to define rules to limit their bandwidth usage.
 
-Similarly, you might be quite happy watching 1080p video on a smaller device.
-If bandwidth is tight you might prefer that to 4k.
+This is especially useful for taming things like Ring Cameras which will happily
+upload at 4k, but which will gracefully provide reasonable imagery at much lower
+resolutions (even 300kbit) if you compel them to.
 
-Because this software uses MAC addresses to regulate hosts, it will not work
-repeatably on devices which select randomized MAC addresses for each session.
-In general randomized addresses can be turned off on selected networks -
-you should do this on networks you want to manage with this software,
+Likewise, video downloaders may attempt to receive the highest resolution
+attainable but 720p might do just as well as 4k for many applications.  High
+rates of movement will require more data, low levels less.
 
-The script and the config file included in this package contain information
-about how to configure and use this software.  Look in src/regulatrix.sh and
-files/regulatrix.conf.
+Ring recommendations for optimal quality.  Far lower rates may work very well:
+
+```
+    4k:	15Mbps
+    2k:	10Mbps
+ 1536p:	2.5Mbps
+ 1080p:	2Mbps
+ 720p:	1Mbps
+```
+The MAC address rules are appropriate for fixed devices such as cameras or
+televisions.  They are less useful for transient devices such as phones,
+tablets, or devices which use variable MAC addresses - but which will also
+display useful video at lower resolutions if bandwidth is restricted.  For
+these devices a three-tiered quota-based download traffic shaping system is
+available and may be applied to an address range (e.g. a dynamic DHCP range).
+The system will step down the bandwidth available to these addresses at
+configurable intervals.
+
+Devices in the range start at full speed and are progressively throttled as they
+consume data, using the iptables quota2 module. The quota subtree
+attaches as a child of the default class 1:10, replacing the SFQ leaf qdisc.
+
+For example, you may wish to allow web traffic to a phone at the full
+bandwidth available on a channel.  But if extensive videos are to be viewed,
+the automatic bandwidth restriction will eventually cause the video playback to drop to
+1080p or lower, permitting satisfactory video playback with far less data.
+
+The quota-based traffic shaping is based upon the idea in Sam Wilson's
+trafficshaper.sh @ https://github.com/Kahn/scripts/tree/master/openwrt)
+
+## Configuration
+
+Look in /etc/config/regulatrix.conf for further information.  Alternatively,
+install the package luci-app-regulatrix, which provides instructive screens
+for configuring regulatrix as well as useful traffic monitoring and analysis
+statistics.
 
 ## Usage
-While the packaging is for OpenWRT's apk packaging system, the scripts are
-more broadly useful for Linux systems and you should have no real trouble
-manually installing them on such systems.
 
+This repository is an OpenWRT package feed.
 You may build the apk packages for OpenWRT by adding this line to the SDK's feed.conf:
 ```
     src-git signetica https://github.com/signetica/signetica-feed.git
@@ -37,19 +80,14 @@ Rebuild the feeds and make the APK, then install it with
 apk add --allow-untrusted <apk filename>
 ```
 
-(Use --allow-untrusted if you leave the apk unsigned)
+Pre-built APKs for both luci-app-regulatrix and regulatrix are made available on github
+for releases.
 
-If building your own apk is inconvenient, perhaps the apk will appear in an
-official OpenWRT repository soon?  A pre-built version is also present in this
-repository.
+Regulatrix can be installed manually by copying three files into place:
+```
+    cp files/regulatrix.con /etc/config/regulatrix
+    cp files/regulatrix.init /etc/init.d/regulatrix
+    cp src/regulatrix.sh /usr/sbin/regulatrix
+```
 
-Or, since there are only three files, you can just copy them into place:
-/etc/config/regulatrix, /etc/init.d/regulatrix and /usr/sbin/regulatrix.  Make
-the last two executable.
-___
-
-## luci-app-regulatrix
-This package is a luci module that provides a graphical interface to regulatrix.
-
-In addition to providing a means of configuring regulatrix, it can display
-statistics about how the traffic control is functioning.
+Make the last two files executable.
