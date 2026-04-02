@@ -60,6 +60,7 @@ the automatic bandwidth restriction will eventually cause the video playback to 
 
 The quota-based traffic shaping is based upon the idea in Sam Wilson's
 trafficshaper.sh @ https://github.com/Kahn/scripts/tree/master/openwrt)
+___
 
 ## Configuration
 
@@ -67,6 +68,7 @@ Look in /etc/config/regulatrix.conf for further information.  Alternatively,
 install the package luci-app-regulatrix, which provides instructive screens
 for configuring regulatrix as well as useful traffic monitoring and analysis
 statistics.
+___
 
 ## Usage
 
@@ -91,3 +93,6 @@ Regulatrix can be installed manually by copying three files into place:
 ```
 
 Make the last two files executable.
+___
+
+https://github.com/signetica/signetica-feed.git
