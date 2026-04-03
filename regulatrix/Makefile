@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=regulatrix
-PKG_VERSION:=2.0.0
+PKG_VERSION:=2.1.0
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
@@ -16,7 +16,7 @@ define Package/regulatrix
 	TITLE:=Regulate upload/download rates per mac address
 	URL:=https://github.com/signetica/signetica-feed
 	MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
-	DEPENDS:=+tc-tiny +iptables +kmod-sched
+	DEPENDS:=+tc-tiny +iptables iptables-mod-quota2 +kmod-sched
 	PKGARCH:=all
 endef
  
