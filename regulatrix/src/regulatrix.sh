@@ -122,6 +122,7 @@ read_quotas() {
   config_load regulatrix
   config_foreach handle_quota_config quotas
 
+  [ ! "$QUOTA_ENABLE" ] && QUOTA_ENABLE=0
   if [ "$QUOTA_ENABLE" -eq 1 ];
   then
     if [ "$QUOTA_LAN_ADDR" = "unspec" \
