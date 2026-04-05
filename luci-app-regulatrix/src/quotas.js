@@ -86,7 +86,7 @@ return view.extend({
 		s.anonymous = true;
 		s.addremove = false;
 		s.description = E('div', {}, [
-			E('ul', {}, [
+			E('ul', { 'style': 'list-style: disc inside; padding-left: 1.5em;' }, [
 				E('li', {}, _('Applies to the DHCP dynamic address range, ' +
 				  'covering transient devices like phones and tablets.')),
 				E('li', {}, _('Each IP starts in Tier 1 (full speed). When its ' +
@@ -164,9 +164,22 @@ return view.extend({
 		kbitOption(o);
 
 		o = s.option(form.Value, 't2_quota', _('Tier 2 Quota'),
-			_('Additional data allowance before demotion to Tier 3 (MB).'));
+			_('Total cumulative data usage before demotion to Tier 3 (MB).'));
 		o.rmempty = false;
 		mbOption(o);
+		var origT2Validate = o.validate;
+		o.validate = function(section_id, value) {
+			var base = origT2Validate ? origT2Validate.call(this, section_id, value) : true;
+			if (base !== true)
+				return base;
+			if (value == null || value === '')
+				return true;
+			var t1 = uci.get('regulatrix', section_id, 't1_quota');
+			var t1_mb = t1 ? Math.round(parseInt(t1) / 1000000) : 0;
+			if (parseInt(value) <= t1_mb)
+				return _('Must be greater than the Tier 1 quota (%d MB)').format(t1_mb);
+			return true;
+		};
 
 		/* ── Tier 3: Floor ───────────────────────────────────── */
 

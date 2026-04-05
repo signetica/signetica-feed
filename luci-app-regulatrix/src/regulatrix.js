@@ -105,7 +105,7 @@ return view.extend({
 		/* ── Regulated Devices (compact table) ───────────────── */
 
 		s = m.section(form.TableSection, 'device', _('Regulated Devices'));
-		s.description = E('ul', {}, [
+		s.description = E('ul', { 'style': 'list-style: disc inside; padding-left: 1.5em;' }, [
 			E('li', {}, _('Each device is identified by MAC address and assigned ' +
 			  'a traffic class with a guaranteed rate and optional ceiling.')),
 			E('li', {}, _('The sum of guaranteed rates for each direction must not ' +

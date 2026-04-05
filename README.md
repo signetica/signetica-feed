@@ -15,7 +15,8 @@ as required by the config.
 
 In addition, groups of IP addresses can be managed using a quota-based three-tiered
 download bandwidth restriction system.
-___
+
+---
 
 ## Overview
 
@@ -59,16 +60,56 @@ the automatic bandwidth restriction will eventually cause the video playback to 
 1080p or lower, permitting satisfactory video playback with far less data.
 
 The quota-based traffic shaping is based upon the idea in Sam Wilson's
-trafficshaper.sh @ https://github.com/Kahn/scripts/tree/master/openwrt)
-___
+trafficshaper.sh (https://github.com/Kahn/scripts/tree/master/openwrt).
+
+---
+
+## How It Works
+
+Regulatrix sets up HTB (Hierarchical Token Bucket) qdiscs on the LAN and WAN
+interfaces.  Each regulated device gets its own traffic class with a guaranteed
+rate and ceiling, identified by MAC address.  Inbound traffic is shaped on the
+LAN device and outbound traffic on the WAN device.  An SFQ (Stochastic
+Fairness Queueing) leaf qdisc provides fair scheduling within each class.
+
+For quota-based shaping, iptables rules in the mangle table use the quota2
+module to track cumulative byte counts per IP address.  MARK targets assign
+each packet a mark corresponding to its current tier.  The marks select
+child classes under a quota subtree attached to the default HTB class,
+stepping down bandwidth as data thresholds are crossed.
+
+Quota counters are cumulative and persist until regulatrix is restarted.
+To reset quotas on a schedule, add a cron job — for example, to reset
+daily at 00:05:
+
+```
+    echo "5 0 * * * /etc/init.d/regulatrix restart" >> /etc/crontabs/root
+    /etc/init.d/cron restart
+```
+
+---
+
+## The LuCI App
+
+The luci-app-regulatrix package provides a web interface with three tabs:
+
+- **Rate Shaping** — Configure global bandwidth settings, LAN/WAN devices,
+  and per-device rate limits identified by MAC address.
+- **Quotas** — Configure the three-tiered quota system for a DHCP address
+  range, including tier ceilings and data thresholds.
+- **Statistics** — Live traffic counters from the active HTB qdiscs and
+  iptables quota rules, with sortable columns.
+
+---
 
 ## Configuration
 
-Look in /etc/config/regulatrix.conf for further information.  Alternatively,
+Look in /etc/config/regulatrix for further information.  Alternatively,
 install the package luci-app-regulatrix, which provides instructive screens
 for configuring regulatrix as well as useful traffic monitoring and analysis
 statistics.
-___
+
+---
 
 ## Usage
 
@@ -93,6 +134,19 @@ Regulatrix can be installed manually by copying three files into place:
 ```
 
 Make the last two files executable.
-___
+
+Manual installation requires the following packages:
+
+```
+    opkg install tc-tiny iptables iptables-mod-quota2 kmod-sched
+```
+
+or on APK-based systems:
+
+```
+    apk add tc-tiny iptables iptables-mod-quota2 kmod-sched
+```
+
+---
 
 https://github.com/signetica/signetica-feed.git

@@ -19,6 +19,107 @@ function humanBytes(bytes) {
 	return bytes + ' B';
 }
 
+/*
+ * Parse a tc rate string (e.g. "300Kbit", "1Mbit") into a numeric
+ * value in bits for sorting purposes.
+ */
+function parseRate(rateStr) {
+	if (!rateStr || rateStr === '—')
+		return 0;
+	var m = rateStr.match(/^(\d+(?:\.\d+)?)\s*(bit|[KMG]bit)/i);
+	if (!m)
+		return 0;
+	var val = parseFloat(m[1]);
+	var unit = m[2].charAt(0).toUpperCase();
+	if (unit === 'K')
+		return val * 1000;
+	if (unit === 'M')
+		return val * 1000000;
+	if (unit === 'G')
+		return val * 1000000000;
+	return val;
+}
+
+/*
+ * Build a sortable table.  Click a column header to sort ascending;
+ * click again for descending.  An arrow indicator shows the active
+ * sort direction.
+ *
+ *   columns:  [{ title: string, numeric: bool }]
+ *   rowData:  [{ display: [string, …], sort: [value, …] }]
+ *
+ * display[] values become cell text; sort[] values drive comparisons
+ * (use raw numbers for numeric columns so sorting is meaningful).
+ */
+function makeSortableTable(columns, rowData) {
+	var state = { col: -1, asc: true };
+
+	var headerCells = [];
+	for (var ci = 0; ci < columns.length; ci++) {
+		(function(idx) {
+			var th = E('th', {
+				'class': 'th',
+				'style': 'cursor: pointer; user-select: none;'
+			}, columns[idx].title + ' \u25bf');
+			th.addEventListener('click', function() { sortByColumn(idx); });
+			headerCells.push(th);
+		})(ci);
+	}
+
+	var headerRow = E('tr', { 'class': 'tr cbi-section-table-titles' },
+		headerCells);
+
+	var dataRows = [];
+	for (var ri = 0; ri < rowData.length; ri++) {
+		var cells = [];
+		for (var ci = 0; ci < rowData[ri].display.length; ci++)
+			cells.push(E('td', { 'class': 'td' }, rowData[ri].display[ci]));
+		dataRows.push(E('tr', { 'class': 'tr' }, cells));
+	}
+
+	var table = E('table', { 'class': 'table cbi-section-table' }, [headerRow]);
+	for (var ri = 0; ri < dataRows.length; ri++)
+		table.appendChild(dataRows[ri]);
+
+	function sortByColumn(colIdx) {
+		if (state.col === colIdx)
+			state.asc = !state.asc;
+		else {
+			state.col = colIdx;
+			state.asc = true;
+		}
+
+		/* Update header indicators. */
+		for (var i = 0; i < headerCells.length; i++) {
+			var arrow = (i === colIdx)
+				? (state.asc ? ' \u25b4' : ' \u25be')
+				: ' \u25bf';
+			headerCells[i].textContent = columns[i].title + arrow;
+		}
+
+		/* Build an index array and sort it. */
+		var indices = [];
+		for (var i = 0; i < rowData.length; i++)
+			indices.push(i);
+
+		var numeric = columns[colIdx].numeric;
+		indices.sort(function(a, b) {
+			var va = rowData[a].sort[colIdx];
+			var vb = rowData[b].sort[colIdx];
+			var cmp = numeric
+				? (va - vb)
+				: String(va).localeCompare(String(vb));
+			return state.asc ? cmp : -cmp;
+		});
+
+		/* Re-append rows in sorted order. */
+		for (var i = 0; i < indices.length; i++)
+			table.appendChild(dataRows[indices[i]]);
+	}
+
+	return table;
+}
+
 /* ── Rate Shaping Statistics ───────────────────────────────────── */
 
 /*
@@ -132,36 +233,48 @@ function renderShapingTable(direction, device, classes, nameMap) {
 			_('No active %s classes. Is regulatrix running?').format(
 				title.toLowerCase()));
 
-	var rows = [
-		E('tr', { 'class': 'tr cbi-section-table-titles' }, [
-			E('th', { 'class': 'th' }, _('Name')),
-			E('th', { 'class': 'th' }, _('Class')),
-			E('th', { 'class': 'th' }, _('Rate')),
-			E('th', { 'class': 'th' }, _('Ceiling')),
-			E('th', { 'class': 'th' }, _('Actual')),
-			E('th', { 'class': 'th' }, _('Sent')),
-			E('th', { 'class': 'th' }, _('Dropped')),
-			E('th', { 'class': 'th' }, _('Overlimits'))
-		])
+	var columns = [
+		{ title: _('Name'),       numeric: false },
+		{ title: _('Class'),      numeric: false },
+		{ title: _('Rate'),       numeric: true  },
+		{ title: _('Ceiling'),    numeric: true  },
+		{ title: _('Actual'),     numeric: true  },
+		{ title: _('Sent'),       numeric: true  },
+		{ title: _('Dropped'),    numeric: true  },
+		{ title: _('Overlimits'), numeric: true  }
 	];
 
+	var rowData = [];
 	for (var i = 0; i < shaping.length; i++) {
 		var c = shaping[i];
-		rows.push(E('tr', { 'class': 'tr' }, [
-			E('td', { 'class': 'td' }, classidToName(c.classid, nameMap)),
-			E('td', { 'class': 'td' }, c.classid),
-			E('td', { 'class': 'td' }, c.rate),
-			E('td', { 'class': 'td' }, c.ceil),
-			E('td', { 'class': 'td' }, c.actual_rate),
-			E('td', { 'class': 'td' }, humanBytes(c.sent_bytes)),
-			E('td', { 'class': 'td' }, String(c.dropped)),
-			E('td', { 'class': 'td' }, String(c.overlimits))
-		]));
+		var name = classidToName(c.classid, nameMap);
+		rowData.push({
+			display: [
+				name,
+				c.classid,
+				c.rate,
+				c.ceil,
+				c.actual_rate,
+				humanBytes(c.sent_bytes),
+				String(c.dropped),
+				String(c.overlimits)
+			],
+			sort: [
+				name,
+				c.classid,
+				parseRate(c.rate),
+				parseRate(c.ceil),
+				parseRate(c.actual_rate),
+				c.sent_bytes,
+				c.dropped,
+				c.overlimits
+			]
+		});
 	}
 
 	return E('div', {}, [
 		E('h4', {}, _('%s — %s').format(title, device)),
-		E('table', { 'class': 'table cbi-section-table' }, rows)
+		makeSortableTable(columns, rowData)
 	]);
 }
 
@@ -270,61 +383,76 @@ function renderQuotaTable(quotaHosts, tcMap) {
 		t3_ceil = q.t3_rate || '—';
 	}
 
-	var rows = [
-		E('tr', { 'class': 'tr cbi-section-table-titles' }, [
-			E('th', { 'class': 'th' }, _('Name / IP')),
-			E('th', { 'class': 'th' }, _('Sent')),
-			E('th', { 'class': 'th' }, _('Tier')),
-			E('th', { 'class': 'th' }, _('Tier Limit')),
-			E('th', { 'class': 'th' }, _('Ceiling')),
-			E('th', { 'class': 'th' }, _('Actual')),
-			E('th', { 'class': 'th' }, _('Dropped')),
-			E('th', { 'class': 'th' }, _('Overlimits'))
-		])
+	var columns = [
+		{ title: _('Name / IP'),   numeric: false },
+		{ title: _('Sent'),        numeric: true  },
+		{ title: _('Tier'),        numeric: true  },
+		{ title: _('Tier Limit'),  numeric: true  },
+		{ title: _('Ceiling'),     numeric: true  },
+		{ title: _('Actual'),      numeric: true  },
+		{ title: _('Dropped'),     numeric: true  },
+		{ title: _('Overlimits'),  numeric: true  }
 	];
 
+	var rowData = [];
 	for (var i = 0; i < quotaHosts.length; i++) {
 		var h = quotaHosts[i];
 
 		/* Tier limit and ceiling for the active tier. */
-		var tierLimit, ceiling;
+		var tierLimit, tierLimitRaw, ceiling, ceilingRaw;
 		switch (h.tier) {
 			case 1:
+				tierLimitRaw = t1_quota;
 				tierLimit = humanBytes(t1_quota);
 				ceiling = t1_ceil;
 				break;
 			case 2:
-				tierLimit = humanBytes(t1_quota + t2_quota);
+				tierLimitRaw = t2_quota;
+				tierLimit = humanBytes(t2_quota);
 				ceiling = t2_ceil;
 				break;
 			default:
+				tierLimitRaw = 0;
 				tierLimit = '—';
 				ceiling = t3_ceil;
 		}
+		ceilingRaw = parseRate(ceiling);
 
 		/* Look up tc stats for the active class in the 2:* subtree.
 		 * Classid format: 2:${ip_octet}${tier} */
 		var tcClassId = '2:' + h.ip_octet + h.tier;
 		var tc = tcMap[tcClassId];
-		var actual   = tc ? tc.actual_rate   : '—';
+		var actual   = tc ? tc.actual_rate        : '—';
 		var dropped  = tc ? String(tc.dropped)    : '—';
 		var overlim  = tc ? String(tc.overlimits) : '—';
 
-		rows.push(E('tr', { 'class': 'tr' }, [
-			E('td', { 'class': 'td' }, h.name),
-			E('td', { 'class': 'td' }, humanBytes(h.sent_bytes)),
-			E('td', { 'class': 'td' }, String(h.tier)),
-			E('td', { 'class': 'td' }, tierLimit),
-			E('td', { 'class': 'td' }, ceiling),
-			E('td', { 'class': 'td' }, actual),
-			E('td', { 'class': 'td' }, dropped),
-			E('td', { 'class': 'td' }, overlim)
-		]));
+		rowData.push({
+			display: [
+				h.name,
+				humanBytes(h.sent_bytes),
+				String(h.tier),
+				tierLimit,
+				ceiling,
+				actual,
+				dropped,
+				overlim
+			],
+			sort: [
+				h.name,
+				h.sent_bytes,
+				h.tier,
+				tierLimitRaw,
+				ceilingRaw,
+				parseRate(actual),
+				tc ? tc.dropped    : 0,
+				tc ? tc.overlimits : 0
+			]
+		});
 	}
 
 	return E('div', {}, [
 		E('h4', {}, _('Quota-Based Shaping')),
-		E('table', { 'class': 'table cbi-section-table' }, rows)
+		makeSortableTable(columns, rowData)
 	]);
 }
 
