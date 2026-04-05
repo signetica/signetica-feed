@@ -123,8 +123,8 @@ Rebuild the feeds and make the APKs, then install them with
 apk add --allow-untrusted <apk filename>
 ```
 
-Pre-built APKs for both luci-app-regulatrix and regulatrix are made available on github
-for releases.
+Pre-built APKs for both luci-app-regulatrix and regulatrix are made available here on
+github for releases.
 
 Regulatrix can be installed manually by copying three files into place:
 ```
@@ -149,4 +149,4 @@ or on APK-based systems:
 
 ---
 
-https://github.com/signetica/signetica-feed.git
+https://github.com/signetica/signetica-feed
