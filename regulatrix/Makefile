@@ -4,8 +4,8 @@ PKG_NAME:=regulatrix
 PKG_VERSION:=2.3.0
 PKG_RELEASE:=1
 
-PKG_MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
 PKG_LICENSE:=BSD-Source-Code
+PKG_MAINTAINER:=Cyrus Rahman <crahman@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
  
