@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: luci-app-regulatrix\n"
+"Language: de\n"
+
+msgid "%s shaping is not enabled."
+msgstr "%s-Kontrolle ist nicht aktiviert."
+
+msgid "%s — %s"
+msgstr "%s — %s"
+
+msgid "(default)"
+msgstr "(Standard)"
+
+msgid "(root)"
+msgstr "(Wurzel)"
+
+msgid "= rate"
+msgstr "= Rate"
+
+msgid "Actual"
+msgstr "Aktuell"
+
+msgid "Add device…"
+msgstr "Gerät hinzufügen…"
+
+msgid "All rates are in kbit. Enter the number only (e.g., 300 for 300kbit)."
+msgstr "Alle Raten sind in kbit. Nur die Zahl eingeben (z.\u00a0B. 300 für 300kbit)."
+
+msgid "All rates are in kbit. Quotas are entered in MB."
+msgstr "Alle Raten sind in kbit. Kontingente werden in MB angegeben."
+
+msgid "Applies to the DHCP dynamic address range, covering transient devices like phones and tablets."
+msgstr "Gilt für den dynamischen DHCP-Adressbereich und erfasst temporäre Geräte wie Telefone und Tablets."
+
+msgid "Bandwidth must be greater than zero"
+msgstr "Bandbreite muss größer als null sein"
+
+msgid "Ceiling"
+msgstr "Obergrenze"
+
+msgid "Ceilings default to the guaranteed rate if left empty."
+msgstr "Obergrenzen entsprechen der garantierten Rate, wenn sie leer gelassen werden."
+
+msgid "Class"
+msgstr "Klasse"
+
+msgid "Class IDs 1 and 10 are reserved for root and default classes."
+msgstr "Die Klassen-IDs 1 und 10 sind für Wurzel- und Standardklassen reserviert."
+
+msgid "Data allowance before demotion to Tier 2 (MB)."
+msgstr "Datenvolumen vor Herabstufung auf Stufe 2 (MB)."
+
+msgid "Dropped"
+msgstr "Verworfen"
+
+msgid "Duplicate ID"
+msgstr "Doppelte ID"
+
+msgid "Each IP starts in Tier 1 (full speed). When its Tier 1 quota is exhausted, it drops to Tier 2. When Tier 2 is exhausted, it drops to Tier 3."
+msgstr "Jede IP startet in Stufe 1 (volle Geschwindigkeit). Wenn das Kontingent der Stufe 1 erschöpft ist, erfolgt die Herabstufung auf Stufe 2. Nach Erschöpfung von Stufe 2 folgt Stufe 3."
+
+msgid "Each device is identified by MAC address and assigned a traffic class with a guaranteed rate and optional ceiling."
+msgstr "Jedes Gerät wird anhand seiner MAC-Adresse identifiziert und einer Verkehrsklasse mit garantierter Rate und optionaler Obergrenze zugewiesen."
+
+msgid "Each octet must be 0–255"
+msgstr "Jedes Oktett muss zwischen 0 und 255 liegen"
+
+msgid "Enable Inbound Shaping"
+msgstr "Eingehende Kontrolle aktivieren"
+
+msgid "Enable Outbound Shaping"
+msgstr "Ausgehende Kontrolle aktivieren"
+
+msgid "Enable Quotas"
+msgstr "Kontingente aktivieren"
+
+msgid "Enable quota-based shaping for the address range below."
+msgstr "Kontingentbasierte Kontrolle für den folgenden Adressbereich aktivieren."
+
+msgid "First host address (last octet) to apply quotas."
+msgstr "Erste Host-Adresse (letztes Oktett) für Kontingente."
+
+msgid "Floor bandwidth after all quotas are exhausted (kbit)."
+msgstr "Mindestbandbreite nach Erschöpfung aller Kontingente (kbit)."
+
+msgid "Global Settings"
+msgstr "Allgemeine Einstellungen"
+
+msgid "HTB r2q divisor. Default 10 is appropriate for most setups."
+msgstr "HTB-r2q-Divisor. Der Standardwert 10 ist für die meisten Konfigurationen geeignet."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "IDs 1 and 10 are reserved"
+msgstr "Die IDs 1 und 10 sind reserviert"
+
+msgid "In Ceil"
+msgstr "Ogr. ↓"
+
+msgid "In Rate"
+msgstr "Rate ↓"
+
+msgid "Inbound Bandwidth"
+msgstr "Eingehende Bandbreite"
+
+msgid "Inbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr "Eingehend: Reservierte Raten (%skbit) erreichen oder überschreiten die Kanalkapazität (%skbit)."
+
+msgid "LAN Address"
+msgstr "LAN-Adresse"
+
+msgid "LAN Device"
+msgstr "LAN-Schnittstelle"
+
+msgid "LAN Rate-to-Quantum"
+msgstr "LAN-Rate-zu-Quantum"
+
+msgid "LAN network address (e.g., 192.168.1.0)."
+msgstr "LAN-Netzwerkadresse (z.\u00a0B. 192.168.1.0)."
+
+msgid "Last host address (last octet) to apply quotas."
+msgstr "Letzte Host-Adresse (letztes Oktett) für Kontingente."
+
+msgid "Live counters from the active HTB qdiscs and iptables quota rules. These reset when regulatrix is restarted."
+msgstr "Live-Zähler der aktiven HTB-Qdiscs und iptables-Kontingentregeln. Diese werden beim Neustart von Regulatrix zurückgesetzt."
+
+msgid "Loading statistics…"
+msgstr "Statistiken werden geladen…"
+
+msgid "MAC Address"
+msgstr "MAC-Adresse"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Maximum bandwidth after Tier 1 quota is exhausted (kbit)."
+msgstr "Maximale Bandbreite nach Erschöpfung des Kontingents der Stufe 1 (kbit)."
+
+msgid "Maximum bandwidth while under Tier 1 quota (kbit)."
+msgstr "Maximale Bandbreite solange das Kontingent der Stufe 1 nicht erschöpft ist (kbit)."
+
+msgid "Must be a positive integer"
+msgstr "Muss eine positive Ganzzahl sein"
+
+msgid "Must be a positive integer (e.g., 128)"
+msgstr "Muss eine positive Ganzzahl sein (z.\u00a0B. 128)"
+
+msgid "Must be a positive integer (e.g., 300)"
+msgstr "Muss eine positive Ganzzahl sein (z.\u00a0B. 300)"
+
+msgid "Must be a valid IPv4 address (e.g., 192.168.1.0)"
+msgstr "Muss eine gültige IPv4-Adresse sein (z.\u00a0B. 192.168.1.0)"
+
+msgid "Must be greater than or equal to range start"
+msgstr "Muss größer oder gleich dem Bereichsanfang sein"
+
+msgid "Must be greater than the Tier 1 quota (%d MB)"
+msgstr "Muss größer als das Kontingent der Stufe 1 sein (%d MB)"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Name / IP"
+msgstr "Name / IP"
+
+msgid "Network device where regulated devices reside."
+msgstr "Netzwerkschnittstelle, an der sich die regulierten Geräte befinden."
+
+msgid "No active %s classes. Is regulatrix running?"
+msgstr "Keine aktiven %s-Klassen. Läuft Regulatrix?"
+
+msgid "No active quota rules found. Are quotas enabled and regulatrix running?"
+msgstr "Keine aktiven Kontingentregeln gefunden. Sind Kontingente aktiviert und läuft Regulatrix?"
+
+msgid "On"
+msgstr "An"
+
+msgid "Out Ceil"
+msgstr "Ogr. ↑"
+
+msgid "Out Rate"
+msgstr "Rate ↑"
+
+msgid "Outbound Bandwidth"
+msgstr "Ausgehende Bandbreite"
+
+msgid "Outbound Internet-facing device."
+msgstr "Ausgehende Schnittstelle zum Internet."
+
+msgid "Outbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr "Ausgehend: Reservierte Raten (%skbit) erreichen oder überschreiten die Kanalkapazität (%skbit)."
+
+msgid "Overlimits"
+msgstr "Überschreitungen"
+
+msgid "Quota Settings"
+msgstr "Kontingenteinstellungen"
+
+msgid "Quota floor rates (%d hosts × %dkbit = %dkbit) meet or exceed unreserved inbound bandwidth (%dkbit)."
+msgstr "Kontingent-Mindestraten (%d Hosts × %dkbit = %dkbit) erreichen oder überschreiten die nicht reservierte eingehende Bandbreite (%dkbit)."
+
+msgid "Quota must be greater than zero"
+msgstr "Kontingent muss größer als null sein"
+
+msgid "Quota-Based Shaping"
+msgstr "Kontingentbasierte Kontrolle"
+
+msgid "Quota-based traffic shaping for the DHCP address range. Devices start at full speed and are progressively throttled as they consume data, encouraging lower-resolution streaming without blocking access."
+msgstr "Kontingentbasierte Verkehrssteuerung für den DHCP-Adressbereich. Geräte starten mit voller Geschwindigkeit und werden mit zunehmendem Datenverbrauch schrittweise gedrosselt, um Streaming in niedrigerer Auflösung zu fördern, ohne den Zugang zu sperren."
+
+msgid "Quotas are cumulative byte counters that persist until reset. Set up a cron job to restart regulatrix daily (e.g., shortly after midnight) to reset all quotas."
+msgstr "Kontingente sind kumulative Byte-Zähler, die bis zur Zurücksetzung bestehen bleiben. Richten Sie einen Cron-Job ein, um Regulatrix täglich neu zu starten (z.\u00a0B. kurz nach Mitternacht), um alle Kontingente zurückzusetzen."
+
+msgid "Range End"
+msgstr "Bereichsende"
+
+msgid "Range Start"
+msgstr "Bereichsanfang"
+
+msgid "Rate"
+msgstr "Rate"
+
+msgid "Refresh Statistics"
+msgstr "Statistiken aktualisieren"
+
+msgid "Regulate download bandwidth to specified devices."
+msgstr "Download-Bandbreite zu angegebenen Geräten regulieren."
+
+msgid "Regulate upload and download rates for specific devices on your local network. Useful for cameras and streaming devices that consume excessive bandwidth."
+msgstr "Reguliert Upload- und Download-Raten für bestimmte Geräte in Ihrem lokalen Netzwerk. Nützlich für Kameras und Streaming-Geräte, die übermäßig Bandbreite verbrauchen."
+
+msgid "Regulate upload bandwidth from specified devices."
+msgstr "Upload-Bandbreite von angegebenen Geräten regulieren."
+
+msgid "Regulated Devices"
+msgstr "Regulierte Geräte"
+
+msgid "Regulatrix — Bandwidth Quotas"
+msgstr "Regulatrix — Bandbreitenkontingente"
+
+msgid "Regulatrix — Rate Shaping"
+msgstr "Regulatrix — Ratenkontrolle"
+
+msgid "Regulatrix — Traffic Statistics"
+msgstr "Regulatrix — Verkehrsstatistiken"
+
+msgid "Regulatrix: Capacity Warning"
+msgstr "Regulatrix: Kapazitätswarnung"
+
+msgid "Sent"
+msgstr "Gesendet"
+
+msgid "The sum of guaranteed rates for each direction must not exceed the corresponding channel bandwidth."
+msgstr "Die Summe der garantierten Raten pro Richtung darf die entsprechende Kanalbandbreite nicht überschreiten."
+
+msgid "Tier"
+msgstr "Stufe"
+
+msgid "Tier 1 Ceiling"
+msgstr "Obergrenze Stufe 1"
+
+msgid "Tier 1 Quota"
+msgstr "Kontingent Stufe 1"
+
+msgid "Tier 2 Ceiling"
+msgstr "Obergrenze Stufe 2"
+
+msgid "Tier 2 Quota"
+msgstr "Kontingent Stufe 2"
+
+msgid "Tier 3 Rate"
+msgstr "Rate Stufe 3"
+
+msgid "Tier 3 has no quota — it is the floor rate that applies for the remainder of the quota period."
+msgstr "Stufe 3 hat kein Kontingent — es ist die Mindestrate, die für den Rest des Kontingentzeitraums gilt."
+
+msgid "Tier Limit"
+msgstr "Stufenlimit"
+
+msgid "Total available download bandwidth in kbit."
+msgstr "Gesamte verfügbare Download-Bandbreite in kbit."
+
+msgid "Total available upload bandwidth in kbit."
+msgstr "Gesamte verfügbare Upload-Bandbreite in kbit."
+
+msgid "Total cumulative data usage before demotion to Tier 3 (MB)."
+msgstr "Gesamter kumulativer Datenverbrauch vor Herabstufung auf Stufe 3 (MB)."
+
+msgid "WAN Device"
+msgstr "WAN-Schnittstelle"
+
+msgid "WAN Rate-to-Quantum"
+msgstr "WAN-Rate-zu-Quantum"
+
+msgid "e.g., Front Door Camera"
+msgstr "z.\u00a0B. Haustürkamera"
+
+msgid "kbit"
+msgstr "kbit"

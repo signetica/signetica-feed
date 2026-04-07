@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: luci-app-regulatrix\n"
+"Language: pt_BR\n"
+
+msgid "%s shaping is not enabled."
+msgstr "O controle %s não está ativado."
+
+msgid "%s — %s"
+msgstr "%s — %s"
+
+msgid "(default)"
+msgstr "(padrão)"
+
+msgid "(root)"
+msgstr "(raiz)"
+
+msgid "= rate"
+msgstr "= taxa"
+
+msgid "Actual"
+msgstr "Real"
+
+msgid "Add device…"
+msgstr "Adicionar dispositivo…"
+
+msgid "All rates are in kbit. Enter the number only (e.g., 300 for 300kbit)."
+msgstr "As taxas são em kbit. Insira apenas o número (ex.: 300 para 300kbit)."
+
+msgid "All rates are in kbit. Quotas are entered in MB."
+msgstr "As taxas são em kbit. As cotas são inseridas em MB."
+
+msgid "Applies to the DHCP dynamic address range, covering transient devices like phones and tablets."
+msgstr "Aplica-se à faixa de endereços DHCP dinâmicos, abrangendo dispositivos temporários como celulares e tablets."
+
+msgid "Bandwidth must be greater than zero"
+msgstr "A largura de banda deve ser maior que zero"
+
+msgid "Ceiling"
+msgstr "Teto"
+
+msgid "Ceilings default to the guaranteed rate if left empty."
+msgstr "Os tetos correspondem à taxa garantida se deixados vazios."
+
+msgid "Class"
+msgstr "Classe"
+
+msgid "Class IDs 1 and 10 are reserved for root and default classes."
+msgstr "Os identificadores 1 e 10 são reservados para as classes raiz e padrão."
+
+msgid "Data allowance before demotion to Tier 2 (MB)."
+msgstr "Volume de dados antes do rebaixamento para o nível 2 (MB)."
+
+msgid "Dropped"
+msgstr "Descartados"
+
+msgid "Duplicate ID"
+msgstr "Identificador duplicado"
+
+msgid "Each IP starts in Tier 1 (full speed). When its Tier 1 quota is exhausted, it drops to Tier 2. When Tier 2 is exhausted, it drops to Tier 3."
+msgstr "Cada IP começa no nível 1 (velocidade máxima). Quando sua cota de nível 1 se esgota, desce para o nível 2. Quando o nível 2 se esgota, desce para o nível 3."
+
+msgid "Each device is identified by MAC address and assigned a traffic class with a guaranteed rate and optional ceiling."
+msgstr "Cada dispositivo é identificado pelo endereço MAC e atribuído a uma classe de tráfego com taxa garantida e teto opcional."
+
+msgid "Each octet must be 0–255"
+msgstr "Cada octeto deve estar entre 0 e 255"
+
+msgid "Enable Inbound Shaping"
+msgstr "Ativar controle de entrada"
+
+msgid "Enable Outbound Shaping"
+msgstr "Ativar controle de saída"
+
+msgid "Enable Quotas"
+msgstr "Ativar cotas"
+
+msgid "Enable quota-based shaping for the address range below."
+msgstr "Ativar o controle por cotas para a faixa de endereços abaixo."
+
+msgid "First host address (last octet) to apply quotas."
+msgstr "Primeiro endereço de host (último octeto) para aplicar cotas."
+
+msgid "Floor bandwidth after all quotas are exhausted (kbit)."
+msgstr "Largura de banda mínima após esgotar todas as cotas (kbit)."
+
+msgid "Global Settings"
+msgstr "Configurações gerais"
+
+msgid "HTB r2q divisor. Default 10 is appropriate for most setups."
+msgstr "Divisor r2q do HTB. O valor padrão 10 é adequado para a maioria das configurações."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "IDs 1 and 10 are reserved"
+msgstr "Os identificadores 1 e 10 são reservados"
+
+msgid "In Ceil"
+msgstr "Teto ↓"
+
+msgid "In Rate"
+msgstr "Taxa ↓"
+
+msgid "Inbound Bandwidth"
+msgstr "Largura de banda de entrada"
+
+msgid "Inbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr "Entrada: as taxas reservadas (%skbit) atingem ou excedem a capacidade do canal (%skbit)."
+
+msgid "LAN Address"
+msgstr "Endereço LAN"
+
+msgid "LAN Device"
+msgstr "Interface LAN"
+
+msgid "LAN Rate-to-Quantum"
+msgstr "Relação taxa/quantum LAN"
+
+msgid "LAN network address (e.g., 192.168.1.0)."
+msgstr "Endereço de rede LAN (ex.: 192.168.1.0)."
+
+msgid "Last host address (last octet) to apply quotas."
+msgstr "Último endereço de host (último octeto) para aplicar cotas."
+
+msgid "Live counters from the active HTB qdiscs and iptables quota rules. These reset when regulatrix is restarted."
+msgstr "Contadores em tempo real dos qdiscs HTB e regras de cota do iptables ativas. São reiniciados quando o Regulatrix é reiniciado."
+
+msgid "Loading statistics…"
+msgstr "Carregando estatísticas…"
+
+msgid "MAC Address"
+msgstr "Endereço MAC"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Maximum bandwidth after Tier 1 quota is exhausted (kbit)."
+msgstr "Largura de banda máxima após esgotar a cota de nível 1 (kbit)."
+
+msgid "Maximum bandwidth while under Tier 1 quota (kbit)."
+msgstr "Largura de banda máxima enquanto a cota de nível 1 não estiver esgotada (kbit)."
+
+msgid "Must be a positive integer"
+msgstr "Deve ser um número inteiro positivo"
+
+msgid "Must be a positive integer (e.g., 128)"
+msgstr "Deve ser um número inteiro positivo (ex.: 128)"
+
+msgid "Must be a positive integer (e.g., 300)"
+msgstr "Deve ser um número inteiro positivo (ex.: 300)"
+
+msgid "Must be a valid IPv4 address (e.g., 192.168.1.0)"
+msgstr "Deve ser um endereço IPv4 válido (ex.: 192.168.1.0)"
+
+msgid "Must be greater than or equal to range start"
+msgstr "Deve ser maior ou igual ao início da faixa"
+
+msgid "Must be greater than the Tier 1 quota (%d MB)"
+msgstr "Deve ser maior que a cota de nível 1 (%d MB)"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Name / IP"
+msgstr "Nome / IP"
+
+msgid "Network device where regulated devices reside."
+msgstr "Interface de rede onde estão os dispositivos regulados."
+
+msgid "No active %s classes. Is regulatrix running?"
+msgstr "Nenhuma classe %s ativa. O Regulatrix está em execução?"
+
+msgid "No active quota rules found. Are quotas enabled and regulatrix running?"
+msgstr "Nenhuma regra de cota ativa encontrada. As cotas estão ativadas e o Regulatrix está em execução?"
+
+msgid "On"
+msgstr "At."
+
+msgid "Out Ceil"
+msgstr "Teto ↑"
+
+msgid "Out Rate"
+msgstr "Taxa ↑"
+
+msgid "Outbound Bandwidth"
+msgstr "Largura de banda de saída"
+
+msgid "Outbound Internet-facing device."
+msgstr "Interface de saída para a Internet."
+
+msgid "Outbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr "Saída: as taxas reservadas (%skbit) atingem ou excedem a capacidade do canal (%skbit)."
+
+msgid "Overlimits"
+msgstr "Excessos"
+
+msgid "Quota Settings"
+msgstr "Configurações de cotas"
+
+msgid "Quota floor rates (%d hosts × %dkbit = %dkbit) meet or exceed unreserved inbound bandwidth (%dkbit)."
+msgstr "As taxas mínimas de cota (%d hosts × %dkbit = %dkbit) atingem ou excedem a largura de banda de entrada não reservada (%dkbit)."
+
+msgid "Quota must be greater than zero"
+msgstr "A cota deve ser maior que zero"
+
+msgid "Quota-Based Shaping"
+msgstr "Controle por cotas"
+
+msgid "Quota-based traffic shaping for the DHCP address range. Devices start at full speed and are progressively throttled as they consume data, encouraging lower-resolution streaming without blocking access."
+msgstr "Controle de tráfego por cotas para a faixa de endereços DHCP. Os dispositivos iniciam em velocidade máxima e são progressivamente limitados conforme consomem dados, favorecendo a transmissão em menor resolução sem bloquear o acesso."
+
+msgid "Quotas are cumulative byte counters that persist until reset. Set up a cron job to restart regulatrix daily (e.g., shortly after midnight) to reset all quotas."
+msgstr "As cotas são contadores cumulativos de bytes que persistem até serem reiniciados. Configure uma tarefa cron para reiniciar o Regulatrix diariamente (ex.: logo após a meia-noite) para redefinir todas as cotas."
+
+msgid "Range End"
+msgstr "Fim da faixa"
+
+msgid "Range Start"
+msgstr "Início da faixa"
+
+msgid "Rate"
+msgstr "Taxa"
+
+msgid "Refresh Statistics"
+msgstr "Atualizar estatísticas"
+
+msgid "Regulate download bandwidth to specified devices."
+msgstr "Regular a largura de banda de download para os dispositivos indicados."
+
+msgid "Regulate upload and download rates for specific devices on your local network. Useful for cameras and streaming devices that consume excessive bandwidth."
+msgstr "Regula as taxas de upload e download para dispositivos específicos da sua rede local. Útil para câmeras e dispositivos de transmissão que consomem largura de banda excessiva."
+
+msgid "Regulate upload bandwidth from specified devices."
+msgstr "Regular a largura de banda de upload dos dispositivos indicados."
+
+msgid "Regulated Devices"
+msgstr "Dispositivos regulados"
+
+msgid "Regulatrix — Bandwidth Quotas"
+msgstr "Regulatrix — Cotas de largura de banda"
+
+msgid "Regulatrix — Rate Shaping"
+msgstr "Regulatrix — Controle de taxa"
+
+msgid "Regulatrix — Traffic Statistics"
+msgstr "Regulatrix — Estatísticas de tráfego"
+
+msgid "Regulatrix: Capacity Warning"
+msgstr "Regulatrix: aviso de capacidade"
+
+msgid "Sent"
+msgstr "Enviado"
+
+msgid "The sum of guaranteed rates for each direction must not exceed the corresponding channel bandwidth."
+msgstr "A soma das taxas garantidas em cada direção não deve exceder a largura de banda correspondente do canal."
+
+msgid "Tier"
+msgstr "Nível"
+
+msgid "Tier 1 Ceiling"
+msgstr "Teto nível 1"
+
+msgid "Tier 1 Quota"
+msgstr "Cota nível 1"
+
+msgid "Tier 2 Ceiling"
+msgstr "Teto nível 2"
+
+msgid "Tier 2 Quota"
+msgstr "Cota nível 2"
+
+msgid "Tier 3 Rate"
+msgstr "Taxa nível 3"
+
+msgid "Tier 3 has no quota — it is the floor rate that applies for the remainder of the quota period."
+msgstr "O nível 3 não tem cota — é a taxa mínima que se aplica pelo resto do período."
+
+msgid "Tier Limit"
+msgstr "Limite de nível"
+
+msgid "Total available download bandwidth in kbit."
+msgstr "Largura de banda total de download disponível em kbit."
+
+msgid "Total available upload bandwidth in kbit."
+msgstr "Largura de banda total de upload disponível em kbit."
+
+msgid "Total cumulative data usage before demotion to Tier 3 (MB)."
+msgstr "Volume total acumulado de dados antes do rebaixamento para o nível 3 (MB)."
+
+msgid "WAN Device"
+msgstr "Interface WAN"
+
+msgid "WAN Rate-to-Quantum"
+msgstr "Relação taxa/quantum WAN"
+
+msgid "e.g., Front Door Camera"
+msgstr "ex.: Câmera da porta principal"
+
+msgid "kbit"
+msgstr "kbit"

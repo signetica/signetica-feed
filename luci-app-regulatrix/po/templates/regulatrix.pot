@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: luci-app-regulatrix\n"
+
+msgid "%s shaping is not enabled."
+msgstr ""
+
+msgid "%s — %s"
+msgstr ""
+
+msgid "(default)"
+msgstr ""
+
+msgid "(root)"
+msgstr ""
+
+msgid "= rate"
+msgstr ""
+
+msgid "Actual"
+msgstr ""
+
+msgid "Add device…"
+msgstr ""
+
+msgid "All rates are in kbit. Enter the number only (e.g., 300 for 300kbit)."
+msgstr ""
+
+msgid "All rates are in kbit. Quotas are entered in MB."
+msgstr ""
+
+msgid "Applies to the DHCP dynamic address range, covering transient devices like phones and tablets."
+msgstr ""
+
+msgid "Bandwidth must be greater than zero"
+msgstr ""
+
+msgid "Ceiling"
+msgstr ""
+
+msgid "Ceilings default to the guaranteed rate if left empty."
+msgstr ""
+
+msgid "Class"
+msgstr ""
+
+msgid "Class IDs 1 and 10 are reserved for root and default classes."
+msgstr ""
+
+msgid "Data allowance before demotion to Tier 2 (MB)."
+msgstr ""
+
+msgid "Dropped"
+msgstr ""
+
+msgid "Duplicate ID"
+msgstr ""
+
+msgid "Each IP starts in Tier 1 (full speed). When its Tier 1 quota is exhausted, it drops to Tier 2. When Tier 2 is exhausted, it drops to Tier 3."
+msgstr ""
+
+msgid "Each device is identified by MAC address and assigned a traffic class with a guaranteed rate and optional ceiling."
+msgstr ""
+
+msgid "Each octet must be 0–255"
+msgstr ""
+
+msgid "Enable Inbound Shaping"
+msgstr ""
+
+msgid "Enable Outbound Shaping"
+msgstr ""
+
+msgid "Enable Quotas"
+msgstr ""
+
+msgid "Enable quota-based shaping for the address range below."
+msgstr ""
+
+msgid "First host address (last octet) to apply quotas."
+msgstr ""
+
+msgid "Floor bandwidth after all quotas are exhausted (kbit)."
+msgstr ""
+
+msgid "Global Settings"
+msgstr ""
+
+msgid "HTB r2q divisor. Default 10 is appropriate for most setups."
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "IDs 1 and 10 are reserved"
+msgstr ""
+
+msgid "In Ceil"
+msgstr ""
+
+msgid "In Rate"
+msgstr ""
+
+msgid "Inbound Bandwidth"
+msgstr ""
+
+msgid "Inbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr ""
+
+msgid "LAN Address"
+msgstr ""
+
+msgid "LAN Device"
+msgstr ""
+
+msgid "LAN Rate-to-Quantum"
+msgstr ""
+
+msgid "LAN network address (e.g., 192.168.1.0)."
+msgstr ""
+
+msgid "Last host address (last octet) to apply quotas."
+msgstr ""
+
+msgid "Live counters from the active HTB qdiscs and iptables quota rules. These reset when regulatrix is restarted."
+msgstr ""
+
+msgid "Loading statistics…"
+msgstr ""
+
+msgid "MAC Address"
+msgstr ""
+
+msgid "MB"
+msgstr ""
+
+msgid "Maximum bandwidth after Tier 1 quota is exhausted (kbit)."
+msgstr ""
+
+msgid "Maximum bandwidth while under Tier 1 quota (kbit)."
+msgstr ""
+
+msgid "Must be a positive integer"
+msgstr ""
+
+msgid "Must be a positive integer (e.g., 128)"
+msgstr ""
+
+msgid "Must be a positive integer (e.g., 300)"
+msgstr ""
+
+msgid "Must be a valid IPv4 address (e.g., 192.168.1.0)"
+msgstr ""
+
+msgid "Must be greater than or equal to range start"
+msgstr ""
+
+msgid "Must be greater than the Tier 1 quota (%d MB)"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name / IP"
+msgstr ""
+
+msgid "Network device where regulated devices reside."
+msgstr ""
+
+msgid "No active %s classes. Is regulatrix running?"
+msgstr ""
+
+msgid "No active quota rules found. Are quotas enabled and regulatrix running?"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Out Ceil"
+msgstr ""
+
+msgid "Out Rate"
+msgstr ""
+
+msgid "Outbound Bandwidth"
+msgstr ""
+
+msgid "Outbound Internet-facing device."
+msgstr ""
+
+msgid "Outbound: reserved rates (%skbit) meet or exceed channel capacity (%skbit)."
+msgstr ""
+
+msgid "Overlimits"
+msgstr ""
+
+msgid "Quota Settings"
+msgstr ""
+
+msgid "Quota floor rates (%d hosts × %dkbit = %dkbit) meet or exceed unreserved inbound bandwidth (%dkbit)."
+msgstr ""
+
+msgid "Quota must be greater than zero"
+msgstr ""
+
+msgid "Quota-Based Shaping"
+msgstr ""
+
+msgid "Quota-based traffic shaping for the DHCP address range. Devices start at full speed and are progressively throttled as they consume data, encouraging lower-resolution streaming without blocking access."
+msgstr ""
+
+msgid "Quotas are cumulative byte counters that persist until reset. Set up a cron job to restart regulatrix daily (e.g., shortly after midnight) to reset all quotas."
+msgstr ""
+
+msgid "Range End"
+msgstr ""
+
+msgid "Range Start"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Refresh Statistics"
+msgstr ""
+
+msgid "Regulate download bandwidth to specified devices."
+msgstr ""
+
+msgid "Regulate upload and download rates for specific devices on your local network. Useful for cameras and streaming devices that consume excessive bandwidth."
+msgstr ""
+
+msgid "Regulate upload bandwidth from specified devices."
+msgstr ""
+
+msgid "Regulated Devices"
+msgstr ""
+
+msgid "Regulatrix — Bandwidth Quotas"
+msgstr ""
+
+msgid "Regulatrix — Rate Shaping"
+msgstr ""
+
+msgid "Regulatrix — Traffic Statistics"
+msgstr ""
+
+msgid "Regulatrix: Capacity Warning"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "The sum of guaranteed rates for each direction must not exceed the corresponding channel bandwidth."
+msgstr ""
+
+msgid "Tier"
+msgstr ""
+
+msgid "Tier 1 Ceiling"
+msgstr ""
+
+msgid "Tier 1 Quota"
+msgstr ""
+
+msgid "Tier 2 Ceiling"
+msgstr ""
+
+msgid "Tier 2 Quota"
+msgstr ""
+
+msgid "Tier 3 Rate"
+msgstr ""
+
+msgid "Tier 3 has no quota — it is the floor rate that applies for the remainder of the quota period."
+msgstr ""
+
+msgid "Tier Limit"
+msgstr ""
+
+msgid "Total available download bandwidth in kbit."
+msgstr ""
+
+msgid "Total available upload bandwidth in kbit."
+msgstr ""
+
+msgid "Total cumulative data usage before demotion to Tier 3 (MB)."
+msgstr ""
+
+msgid "WAN Device"
+msgstr ""
+
+msgid "WAN Rate-to-Quantum"
+msgstr ""
+
+msgid "e.g., Front Door Camera"
+msgstr ""
+
+msgid "kbit"
+msgstr ""
+
