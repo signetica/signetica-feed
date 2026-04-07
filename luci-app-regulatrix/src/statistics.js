@@ -288,7 +288,11 @@ function renderShapingTable(direction, device, classes, nameMap) {
  *   Rule 1 (quota2 gated):  T1 mark — traffic while T1 quota active
  *
  * Returns an array of:
- *   { name, ip_octet, sent_bytes, tier, t1_bytes, t2_bytes }
+ *   { name, ip_octet, sent_bytes }
+ *
+ * Tier detection is handled by the caller using the configured quota
+ * thresholds, which is more reliable than comparing per-rule byte
+ * counts that may be inconsistent during a restart.
  */
 function parseQuotaStats(raw) {
 	if (!raw)
@@ -323,37 +327,19 @@ function parseQuotaStats(raw) {
 	}
 
 	/* Group every three consecutive rules into one host entry.
-	 * Order: Rule 3 (unconditional), Rule 2 (T2 gated), Rule 1 (T1 gated). */
+	 * Order: Rule 3 (unconditional), Rule 2 (T2 gated), Rule 1 (T1 gated).
+	 * We only need the unconditional rule for total byte count. */
 	for (var i = 0; i + 2 < rules.length; i += 3) {
 		var r3 = rules[i];      /* Unconditional — total traffic */
-		var r2 = rules[i + 1];  /* T2 quota gated */
-		var r1 = rules[i + 2];  /* T1 quota gated */
 
 		/* Recover IP octet from the mark.  Mark format is ${ip}00N decimal,
 		 * so integer division by 1000 gives the last octet. */
 		var ip_octet = Math.floor(r3.mark / 1000);
 
-		/* Determine active tier by comparing byte counts.
-		 * If T1 rule bytes == total bytes → still in Tier 1.
-		 * If T2 rule bytes == total bytes but T1 < total → Tier 2.
-		 * If T2 rule bytes < total bytes → Tier 3. */
-		var tier;
-		if (r1.bytes >= r3.bytes && r3.bytes > 0)
-			tier = 1;
-		else if (r2.bytes >= r3.bytes && r3.bytes > 0)
-			tier = 2;
-		else if (r3.bytes > 0)
-			tier = 3;
-		else
-			tier = 1;  /* No traffic yet — effectively Tier 1. */
-
 		hosts.push({
 			name:      r3.dest,
 			ip_octet:  ip_octet,
-			sent_bytes: r3.bytes,
-			tier:      tier,
-			t1_bytes:  r1.bytes,
-			t2_bytes:  r2.bytes
+			sent_bytes: r3.bytes
 		});
 	}
 
@@ -398,9 +384,20 @@ function renderQuotaTable(quotaHosts, tcMap) {
 	for (var i = 0; i < quotaHosts.length; i++) {
 		var h = quotaHosts[i];
 
+		/* Determine tier from total bytes vs configured thresholds.
+		 * This is more reliable than comparing per-rule byte counts,
+		 * which can be inconsistent during a restart. */
+		var tier;
+		if (h.sent_bytes >= t2_quota && t2_quota > 0)
+			tier = 3;
+		else if (h.sent_bytes >= t1_quota && t1_quota > 0)
+			tier = 2;
+		else
+			tier = 1;
+
 		/* Tier limit and ceiling for the active tier. */
 		var tierLimit, tierLimitRaw, ceiling, ceilingRaw;
-		switch (h.tier) {
+		switch (tier) {
 			case 1:
 				tierLimitRaw = t1_quota;
 				tierLimit = humanBytes(t1_quota);
@@ -420,7 +417,7 @@ function renderQuotaTable(quotaHosts, tcMap) {
 
 		/* Look up tc stats for the active class in the 2:* subtree.
 		 * Classid format: 2:${ip_octet}${tier} */
-		var tcClassId = '2:' + h.ip_octet + h.tier;
+		var tcClassId = '2:' + h.ip_octet + tier;
 		var tc = tcMap[tcClassId];
 		var actual   = tc ? tc.actual_rate        : '—';
 		var dropped  = tc ? String(tc.dropped)    : '—';
@@ -430,7 +427,7 @@ function renderQuotaTable(quotaHosts, tcMap) {
 			display: [
 				h.name,
 				humanBytes(h.sent_bytes),
-				String(h.tier),
+				String(tier),
 				tierLimit,
 				ceiling,
 				actual,
@@ -440,7 +437,7 @@ function renderQuotaTable(quotaHosts, tcMap) {
 			sort: [
 				h.name,
 				h.sent_bytes,
-				h.tier,
+				tier,
 				tierLimitRaw,
 				ceilingRaw,
 				parseRate(actual),
